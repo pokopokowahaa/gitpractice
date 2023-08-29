@@ -45,15 +45,14 @@ class OthelloPractice:
         next_bamed = bamed.copy()
         next_depth = depth - 1
         next_turn = 3 - turn
+        print(self.turn)
         evalu = -5
         tmp_evalu = 0
         self.check_logic(next_bamed, turn,  move, flip=True)
 
         if next_depth == 0:
-            print("self.evalu",self.evalu[move],"move",move)
             evalu = 3*self.evalu[move] 
-            print("evalu ",evalu)
-        elif next_turn == 2:
+        elif next_turn == 1:
 
             for i in range(9, 82):
                 if self.check_logic(next_bamed, turn, i, flip=False):
@@ -61,8 +60,6 @@ class OthelloPractice:
                 if tmp_evalu >= evalu:
                     evalu = tmp_evalu
                     move1 = i
-                
-
         else:
 
             for i in range(9, 82):
@@ -97,21 +94,24 @@ class OthelloPractice:
         move1 = 0
         while not (move := 0):
             score = -5
+            print("self.turn", self.turn)
             for i in range(9, 82):
-                tmp_score = self.loop(self.bamed, i, 2, self.turn, move1)
-                if tmp_score >= score:
-                    score = tmp_score
-                    move = i
-                print("score ",score," move ",move)
+                if self.check_logic(self.bamed, self.turn, i, flip=False):
+                    print("self.turn2",self.turn)
+                    tmp_score = self.loop(self.bamed, i, 2, self.turn, move1)
+                    if tmp_score >= score:
+                        score = tmp_score
+                        move = i
 
             for i in range(9, 82):
                 print(self.discs[self.bamed[i]*2:][:2], end='')
             print(move)
+            print("self.turn3",self.turn)
             while move and not (end := False):
                 if not com1 and self.turn == 1 or not com2 and self.turn == 2:
                     x, y = [int(i) for i in input().split()]
                     move = x + y * 9
-                if self.check_logic(self.bamed, self.turn,  move, flip=True):
+                if self.check_logic(self.bamed, self.turn, move, flip=True):
                     break
             else:
                 if end:
